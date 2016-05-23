@@ -24,8 +24,9 @@
 
 * Creation of Virtual Environment
 
-  + Create Virtual Environemnt in the =outreach= directory
+  + Create Virtual Environemnt
   #+BEGIN_EXAMPLE
+  ### run this command when you are the same level as makefile, src and Readme
   virtualenv venv
   #+END_EXAMPLE
   + Activate the Virtual Environment
