@@ -327,7 +327,7 @@ class TestEmail(TestCase):
 
      + Name
      + Email
-     + Roles
+     + Role
 
 
 *** Definition
@@ -420,7 +420,7 @@ class TestUser(TestCase):
             self.role = role
 #+END_SRC
 
-***** Test setRoles to a user 
+***** Test setRole to a user 
 #+BEGIN_SRC python :tangle ../../tests/test_db.py :eval no
     def test_set_toles_to_user(self):
         print "test_set_toles_to_user"
@@ -497,7 +497,6 @@ class TestUser(TestCase):
         print "test_user_get_all"
         role = Role(name=Name("Admin"))
         role.save()
-        roles = Role.get_all()
         user = User(name=Name("Termite"), 
                     email=Email("tremite@gmail.com"),
                     role=role)
