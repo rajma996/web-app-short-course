@@ -17,7 +17,7 @@
     #+END_EXAMPLE
   - If <userdirectory> database is not present, create it
     #+BEGIN_EXAMPLE
-    create database outreach
+    create database userdirectory
     #+END_EXAMPLE
   
     Exit our of the mysql console
