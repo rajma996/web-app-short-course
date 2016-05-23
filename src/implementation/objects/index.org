@@ -32,23 +32,10 @@ from src.op_exceptions import AttributeRequired
 #+END_SRC
 
 
-** Imports for utility functions
-
-#+BEGIN_SRC python :tangle ../../src/utils.py :eval no
-
-# module to hold all utilities/helper functions
-
-import json
-
-import re
-
-
-#+END_SRC
-
-
 ** Init Files
 #+BEGIN_SRC python :tangle ../../src/__init__.py :eval no
 import obj
+import db
 #+END_SRC
 
 #+BEGIN_SRC python :tangle ../../tests/__init__.py :eval no
@@ -76,35 +63,6 @@ class AttributeRequired(Exception):
 
 #+END_SRC
 
-
-
-
-** Utility Functions
-
-*** is_alphabetic_string(value)
-    This function take an argument and checks whether the argument contains
-    only alphabets.
-
-#+BEGIN_SRC  python :tangle ../../src/utils.py :eval no
-def is_alphabetic_string(value):
-    if re.search('[^a-zA-Z. ]+', value):
-        return False
-    else:
-        return True
-#+END_SRC
-
-
-*** is_email(value)
-    Email is a type as defined in RFC [[https://tools.ietf.org/html/rfc5321][5321]], [[https://tools.ietf.org/html/rfc5322][5322]] and [[https://tools.ietf.org/html/rfc6531][6531]].
-    Following is the constructor for this class.
-
-#+BEGIN_SRC python :tangle ../../src/utils.py :eval no
-def is_email(value):
-    if re.search('[^@]+@[^@]+\.[^@]+', value):
-        return True
-    else:
-        return False
-#+END_SRC
 
 
 
@@ -401,6 +359,7 @@ Note that =_set_user= is used internally by the
             'session': self.user.to_client()
         }
 #+END_SRC
+
 
 * System
 
