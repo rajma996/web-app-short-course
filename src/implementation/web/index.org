@@ -59,6 +59,13 @@ business logic in parallel.
 * Why MVC ??
 * How to implement ??
 ** Source Code
+*** Initiating Angular application on html page
+#+BEGIN_SRC 
+<div ng-app="directoryApp">
+  <div ng-view>
+  </div>
+</div>
+#+END_SRC
 *** Router 
 - =app.js=
 
