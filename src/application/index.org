@@ -209,7 +209,7 @@ if __name__ == "__main__":
 #+END_SRC
 
 
-
+  
 * REST
 
 ** Initialization
@@ -235,7 +235,7 @@ from utils import parse_request, jsonify_list
 api = Blueprint('APIs', __name__)
 #+END_SRC
 
-** Persona
+** Persona Login & Logout apis
 #+BEGIN_SRC python :tangle ../src/api.py :eval no
 @api.route("/", methods=['GET'])
 def index():

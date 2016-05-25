@@ -64,7 +64,6 @@ business logic in parallel.
 
 #+BEGIN_SRC javascript :tangle ../../src/static/js/app.js :eval no
 var app = angular.module('directoryApp',['ngRoute','directoryApp.controllers']);
-
 app.config(function($routeProvider){
   $routeProvider
     .when('/', {
