@@ -77,25 +77,14 @@ app.config(function($routeProvider){
 ** Controller
 - =controller.py=
 #+BEGIN_SRC javascript :tangle ../../src/static/js/controllers.js :eval no
-
 var app = angular.module('directoryApp.controllers',[]);
-
-app.controller("users", function($scope, $http, $window){
+app.controller("users", function($scope,  $http, $routeParams, $route,$window){
     $scope.role_name = $window.role_name;
     $http.get("/users").success(function(response){
-
 	$scope.users = response;
-
-    }).error(function(status){
-
-	if(status == 500){
-	    $scope.status = "Internal Server Error";
-	}
-
-	else{
-	    $scope.status = "Erro in getting data";
-	}
     });
+
+});
 #+END_SRC
 ** View
 - =/static/partials/users.html=
