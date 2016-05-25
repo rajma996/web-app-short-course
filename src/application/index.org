@@ -235,7 +235,69 @@ from utils import parse_request, jsonify_list
 api = Blueprint('APIs', __name__)
 #+END_SRC
 
+** Persona
+#+BEGIN_SRC python :tangle ../src/api.py :eval no
+@api.route("/", methods=['GET'])
+def index():
+    if request.method == 'GET':
+        if ('email' in session):
+            return render_template("user-list.html")
+        else:
+            return render_template("index.html")
+        
+@api.route("/user-list", methods=['GET', 'POST'])
+def admin():
+    if request.method == 'GET':
+        if ('email' in session):
+            return render_template("user-list.html")
+        else:
+            return render_template("index.html")
+        
+@api.route("/auth/login", methods=['GET', 'POST'])
+def login():
 
+    if request.method == 'POST':
+        if 'assertion' not in request.form:
+            abort(400)
+        data = {'assertion': request.form['assertion'],
+                'audience': APP_URL}
+        resp = requests.post(PERSONA_VERIFIER_URL,
+                             data=data, verify=True)
+
+        if resp.ok:
+            verification_data = resp.json()
+        if verification_data['status'] == 'okay':
+            url_for_getting_the_user = "%s/users" % \
+                                       (APP_URL)
+            email = verification_data['email']
+            backend_resp = requests.get(url_for_getting_the_user)
+            user_list = backend_resp.json()
+            if len(backend_resp.text.encode('ascii')) != 2:
+                count = 0
+                for user in range(len(user_list)):
+                    if str(email) == str(user_list[user]['email']):
+                        current_app.logger.info("Successfully Logged in")
+                        #session['role_name'] = user_list[user]['roles'][0]['name']
+                        session['role_name'] = str(user_list[user]['role']['name'])
+                        session['email'] = email
+                        session['user_id'] = user_list[user]['id']
+                        return "ok"
+                    else:
+                        count = count + 1
+
+                if count == len(user_list):
+                    current_app.logger.info("Invalid User")
+                    return "false"
+            else:
+                return "error"
+
+@api.route('/auth/logout', methods=['POST'])
+def logout_handler():
+    session.pop('email', None)
+    session.pop('role_name', None)
+    session.pop('id', None)
+    return "Ok"
+#+END_SRC
 ** GET all users
 
 #+BEGIN_SRC python :tangle ../src/api.py :eval no
