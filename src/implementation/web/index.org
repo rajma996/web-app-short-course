@@ -34,7 +34,7 @@ using AngularJS MVC framework.
   + Diagrame
     #+CAPTION:  Git local VCS
     #+LABEL:  Git local VCS
-  [[./mvc.png]]
+  [[./mvc.jpg]]
 
 ** Model
 The Model is the part of the application that handles the logic for
@@ -60,7 +60,7 @@ business logic in parallel.
 * How to implement ??
 ** Source Code
 *** Router 
-- =main.js=
+- =app.js=
 
 #+BEGIN_SRC javascript :tangle ../../src/static/js/app.js :eval no
 var app = angular.module('directoryApp',['ngRoute','directoryApp.controllers']);
@@ -73,7 +73,7 @@ app.config(function($routeProvider){
 });
 
 #+END_SRC
-** Controller
+*** Controller
 - =controller.py=
 #+BEGIN_SRC javascript :tangle ../../src/static/js/controllers.js :eval no
 var app = angular.module('directoryApp.controllers',[]);
@@ -85,8 +85,8 @@ app.controller("users", function($scope,  $http, $routeParams, $route,$window){
 
 });
 #+END_SRC
-** View
-- =/static/partials/users.html=
+*** View
+- =users.html=
 #+BEGIN_SRC javascript :tangle ../../src/static/partials/users.html :eval no
 <div class="row">
   <div class="col-md-9"><h2>User Details</h2></div>
