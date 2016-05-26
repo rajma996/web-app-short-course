@@ -53,6 +53,47 @@ config = {
 }
 
 #+END_SRC
+** Login/Logout apis
+#+BEGIN_SRC python :tangle ../../src/api.py :eval no
+@api.route("/", methods=['GET'])
+def index():
+    if request.method == 'GET':
+        if ('email' in session):
+            return render_template("user-list.html")
+        else:
+            return render_template("login.html")
+
+@api.route("/auth/login", methods=['GET', 'POST'])
+def login():
+
+    if request.method == 'POST':
+        email = str(request.form['email'])
+        url_for_getting_the_user = "%s/users" % \
+                                   (APP_URL)
+        backend_resp = requests.get(url_for_getting_the_user)
+        user_list = backend_resp.json()
+        if len(backend_resp.text.encode('ascii')) != 2:
+            count = 0
+            for user in range(len(user_list)):
+                print len(user_list)
+                print user_list[user]
+                if str(email) == str(user_list[user]['email']):
+                    current_app.logger.info("Successfully Logged in")
+                    session['email'] = email
+                    session['role_name'] = str(user_list[user]['role']['name'])
+                    return redirect("/")
+                else:
+                    count = count + 1
+            if count == len(user_list):
+                return render_template("login.html", message="Invalid email id")
+            
+@api.route('/auth/logout', methods=['GET'])
+def logout_handler():
+    session.pop('email', None)
+    session.pop('role_name', None)
+    return redirect("/")
+
+#+END_SRC
 ** GET all users
 
 #+BEGIN_SRC python :tangle ../../src/api.py :eval no
