@@ -58,6 +58,11 @@ config = {
 #+BEGIN_SRC python :tangle ../../src/api.py :eval no
 @api.route('/users', methods=['GET'])
 def get_users():
+    if 'session' not in request.json:
+        print "throw error from get_roles"
+    else:
+        print "get_roles -- Check according to your specification"
+
     return jsonify_list([i.to_client() for i in User.get_all()])
 #+END_SRC
    
@@ -68,6 +73,11 @@ def get_users():
 #+BEGIN_SRC python :tangle ../../src/api.py :eval no
 @api.route('/roles', methods=['GET'])
 def get_roles():
+    if 'session' not in request.json:
+        print "throw error from get_roles"
+    else:
+        print "get_roles -- Check according to your specification"
+
     return jsonify_list([i.to_client() for i in Role.get_all()])
 #+END_SRC
 
@@ -233,8 +243,15 @@ class TestUser(TestCase):
                     email=Email("normal@xyz.com"),
                     role=role2)
         user2.save()
-        r = self.client.get('/users')
-        result = json.loads(r.data)
+
+        payload = {'session': 't@g.com'}
+
+        headers = {'content-type': 'application/json'}
+
+        response = self.client.get("/users",
+                                      data=json.dumps(payload),
+                                      headers=headers)
+
         self.assertEquals(len(result), 2)
 
     def test_get_one_user(self):
