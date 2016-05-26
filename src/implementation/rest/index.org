@@ -252,7 +252,7 @@ class TestUser(TestCase):
                                       data=json.dumps(payload),
                                       headers=headers)
 
-        self.assertEquals(len(result), 2)
+        self.assertEqual(response.status_code, 200)
 
     def test_get_one_user(self):
         print "test_get_one_user"
