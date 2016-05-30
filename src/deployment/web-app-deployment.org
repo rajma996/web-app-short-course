@@ -1,0 +1,82 @@
+#+TITLE: Deployment
+#+Author: VLEAD
+#+Date: [2016-05-27 Fri]
+#+PROPERTY: results output
+#+PROPERTY: exports code
+#+SETUPFILE: ./org-templates/level-0.org
+#+options: ^:nil
+
+* Manual Deployment of =web-app-short-course= Application
+** creation of container
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+#+BEGIN_EXAMPLE
+vzctl create 16206 --ostemplate ubuntu-12.04-custom-x86_64 --ipadd 10.4.15.206 --diskspace 10G:15.0G --hostname web-app.vlabs.ac.in
+vzctl start 16206
+vzctl set 16206 --nameserver inherit --ram 256M --swap 512M --onboot yes --save
+vzctl enter 16206
+#+END_EXAMPLE
+
+** setting up proxy
+#+BEGIN_SRC sh :tangle deployment.sh
+export http_proxy="http://proxy.iiit.ac.in:8080"
+export https_proxy="http://proxy.iiit.ac.in:8080"
+#+END_SRC
+
+** Setting up proxy in =apt.conf= 
+update the above file with the following proxy details.
+#+BEGIN_SRC sh :tangle deployment.sh
+echo 'Acquire::http::Proxy "http://proxy.iiit.ac.in:8080";' >> /etc/apt/apt.conf
+echo 'Acquire::https::Proxy "http://proxy.iiit.ac.in:8080";' >> /etc/apt/apt.conf
+#+END_SRC
+
+** Installing emacs
+#+BEGIN_SRC sh :tangle deployment.sh
+sudo apt-get update
+sudo apt-get install -y emacs
+#+END_SRC
+                             
+** Installing Org 8.2.10
+#+BEGIN_SRC sh :tangle deployment.sh
+mkdir -p ~/emacs/lisp
+cd ~/emacs/lisp
+wget http://orgmode.org/org-8.2.10.tar.gz
+tar zxvf org-8.2.10.tar.gz
+#+END_SRC
+             
+** cloning the repository
+#+BEGIN_SRC sh :tangle deployment.sh
+git clone https://github.com/vlead/web-app-short-course.git
+cd web-app-short-course
+git checkout deployment
+#+END_SRC
+** build
+#+BEGIN_SRC sh :tangle deployment.sh
+make
+#+END_SRC
+** Post build steps 
+#+BEGIN_SRC sh :tangle deployment.sh
+cp -R build/code/* /var/www/
+chmod -R 755 /var/www
+mkdir /var/www/logs
+chmod -R 777 /var/www/logs
+#+END_SRC
+** installing dependencies and setting up the database
+#+BEGIN_SRC sh :tangle deployment.sh
+bash /var/www/setup.sh
+python /var/www/setup.py install
+bash /var/www/configure.sh
+python /var/www/db_setup.py
+#+END_SRC
+** Update =config.py= file
+update the =APP_URL= value with the ip-address and port number to run the application.
+#+BEGIN_SRC sh :tangle deployment.sh
+vi /var/www/src/config.py
+APP_URL = "http://10.4.15.206:5000"
+#+END_SRC
+
+** start flask server
+#+BEGIN_SRC sh :tangle deployment.sh
+python /var/www/src/app.py
+#+END_SRC
