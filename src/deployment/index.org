@@ -52,15 +52,23 @@ def create_roles():
     role2.save()
 
 def create_admin_user():
-    user = User(name=Name("Admin User"),
-                email=Email("xyz@gmail.com"),
+    admin = User(name=Name("Admin User"),
+                email=Email("admin@gmail.com"),
                 role=Role.get_by_id(1))
+    admin.save()
+
+def create_user():
+    user = User(name=Name("Dummy User"),
+                email=Email("user@gmail.com"),
+                role=Role.get_by_id(2))
     user.save()
+
 
 if __name__ == "__main__":
     db.create_all(app=create_app(config))
     create_roles()
     create_admin_user()
+    create_user()
 
 #+END_SRC
 

@@ -88,7 +88,10 @@
    emacs -nw /var/www/src/config.py 
    APP_URL = "<ip-address>"
    #+END_EXAMPLE
-
+** Restart Apache service
+   #+BEGIN_EXAMPLE
+   service apache2 restart
+   #+END_EXAMPLE
 ** Accessing web application through browser
    #+BEGIN_EXAMPLE
    http://<ipaddress>
