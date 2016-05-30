@@ -58,6 +58,7 @@
 
 ** cloning the repository
    #+BEGIN_EXAMPLE
+   cd ~
    git clone https://github.com/vlead/web-app-short-course.git
    cd web-app-short-course
    git checkout deployment
