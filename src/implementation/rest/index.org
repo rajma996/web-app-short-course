@@ -99,10 +99,10 @@ def logout_handler():
 #+BEGIN_SRC python :tangle ../../src/api.py :eval no
 @api.route('/users', methods=['GET'])
 def get_users():
-    if 'session' not in request.json:
-        print "throw error from get_roles"
-    else:
-        print "get_roles -- Check according to your specification"
+#    if 'session' not in request.json:
+#        print "throw error from get_roles"
+#    else:
+#        print "get_roles -- Check according to your specification"
 
     return jsonify_list([i.to_client() for i in User.get_all()])
 #+END_SRC
