@@ -27,7 +27,7 @@
    #+END_SRC
    *Example:*
    #+BEGIN_EXAMPLE
-   vzctl create 16206 --ostemplate ubuntu-12.04-custom-x86_64 --ipadd 10.4.15.206 --diskspace 10G:15.0G --hostname web-app.vlabs.ac.in
+   vzctl create 16206 --ostemplate ubuntu-12.04-custom-with-emacs-x86_64 --ipadd 10.4.15.206 --diskspace 10G:15.0G --hostname web-app.vlabs.ac.in
    vzctl start 16206
    vzctl enter 16206
    #+END_EXAMPLE
