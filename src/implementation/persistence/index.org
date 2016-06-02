@@ -487,6 +487,8 @@ class TestUser(TestCase):
 #+BEGIN_SRC python :tangle ../../src/db.py :eval no
     @staticmethod
     def get_all():
+
+        db.session.autoflush = False
         return User.query.all()
 #+END_SRC
 
